@@ -23,7 +23,6 @@ SchemaUtils.create(TableUser, TableRoles, TableUserRole)
             }
         }
 
-
         val user2 = transaction {
             EntityUserDao.new {
                 mobile = "9041866058"

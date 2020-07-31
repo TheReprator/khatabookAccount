@@ -6,8 +6,12 @@ import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.routing
 import kotlinx.coroutines.runBlocking
+import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.StdOutSqlLogger
+import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.transactions.transaction
 import reprator.khatabookAccount.db.tables.EntityUserDao
+import reprator.khatabookAccount.db.tables.TableUser
 import reprator.khatabookAccount.service.setup
 import reprator.khatabookAccount.socialAuth.firebaseAuthModule
 
@@ -36,4 +40,10 @@ fun Application.module(testing: Boolean = false) {
         }
     }
 
-}
+    transaction {
+        addLogger(StdOutSqlLogger)
+
+        SchemaUtils.create(TableUser)
+    }
+
+    }

@@ -1,0 +1,5 @@
+1)https://ktor.io/servers/deploy/hosting/heroku.html
+2)heroku config:set GRADLE_TASK="build"
+  git push heroku master
+3)https://devcenter.heroku.com/articles/heroku-postgresql
+  For free use: heroku addons:create heroku-postgresql:hobby-dev
