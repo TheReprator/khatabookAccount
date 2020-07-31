@@ -27,7 +27,7 @@ fun Application.module(testing: Boolean = false) {
 
     transaction {
             EntityUserDao.new {
-                mobile = "9041866058"
+                mobile = "90418he66058"
                 isVerified = true
         }
     }
