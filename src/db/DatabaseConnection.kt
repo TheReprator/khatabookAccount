@@ -16,7 +16,7 @@ object DatabaseConnection {
     val dataSource = if (hikariConfig.jdbcUrl != null)
         HikariDataSource(hikariConfig)
     else
-        configureHikariCP()
+        HikariDataSource()
 
     private fun configureHikariCP(): HikariDataSource {
         val config = HikariConfig("/hikari.properties")
