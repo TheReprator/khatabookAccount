@@ -1,6 +1,8 @@
 package reprator.khatabookAccount.service
 
 import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.core.util.DefaultIndenter
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import io.ktor.application.Application
 import io.ktor.application.install
 import io.ktor.auth.Authentication
@@ -32,6 +34,10 @@ fun Application.setup(testing: Boolean, configuration: Kodein.MainBuilder.() -> 
     install(ContentNegotiation) {
         jackson {
             setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
+                indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
+                indentObjectsWith(DefaultIndenter("  ", "\n"))
+            })
             findAndRegisterModules()
         }
     }
