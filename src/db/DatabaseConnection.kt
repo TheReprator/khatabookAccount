@@ -9,6 +9,16 @@ import org.jetbrains.exposed.sql.Database
  */
 object DatabaseConnection {
 
+    val hikariConfig = HikariConfig().apply {
+        jdbcUrl = System.getenv("JDBC_DATABASE_URL")
+    }
+
+    val dataSource = if (hikariConfig.jdbcUrl != null)
+        HikariDataSource(hikariConfig)
+    else
+        configureHikariCP()
+
+
     private fun configureHikariCP(): HikariDataSource {
         val config = HikariConfig("/hikari.properties")
         config.maximumPoolSize = 64
@@ -23,5 +33,5 @@ object DatabaseConnection {
         return HikariDataSource(config)
     }
 
-    fun connect() = Database.connect(configureHikariCP())
+    fun connect() = Database.connect(dataSource)
 }
