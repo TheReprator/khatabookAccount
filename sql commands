@@ -1,0 +1,74 @@
+SchemaUtils.create(TableUser, TableRoles, TableUserRole)
+
+        // create role
+        val roleAdmin =
+            transaction {
+                EntityRoleDao.new {
+                    role = Roles.ADMIN
+                }
+            }
+
+        val roleWorker = transaction {
+            EntityRoleDao.new {
+                role = Roles.SUBUSER
+            }
+        }
+
+
+        // create user
+        val user1 = transaction {
+            EntityUserDao.new {
+                mobile = "9041866055"
+                isVerified = false
+            }
+        }
+
+
+        val user2 = transaction {
+            EntityUserDao.new {
+                mobile = "9041866058"
+                isVerified = true
+            }
+        }
+
+        user1.role = SizedCollection(listOf(roleAdmin))
+        user2.role = SizedCollection(listOf(roleWorker))
+
+        roleAdmin.user = SizedCollection(listOf(user1))
+        roleWorker.user = SizedCollection(listOf(user2))
+
+
+
+SELECT O."mobileNumber", O."isVerified", P.role, I.user as UserId, I.role as roleId
+  FROM users O
+  JOIN user_role I ON O.id = I.user
+  JOIN roles P ON P.id = I.role
+  where O."mobileNumber" = '9041866055';
+
+
+
+  SELECT
+      c1."id",
+      c1."mobileNumber",
+      c1."isVerified",
+      c2."id",
+      c2."parentId"
+  FROM
+      users c1
+  INNER JOIN users c2 ON c1."id" = c2."id"
+  where c1."mobileNumber" = '9041866055' AND c1."parentId" > -1
+
+
+
+
+  SELECT
+      c1."id",
+      c1."mobileNumber",
+      c1."isVerified",
+      c1."parentId"
+  FROM
+      users c1
+  where c1."mobileNumber" = '9041866055' and c1."parentId" = -1
+
+
+
