@@ -5,6 +5,7 @@ import io.ktor.application.call
 import io.ktor.response.respond
 import io.ktor.routing.get
 import io.ktor.routing.routing
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.transaction
 import reprator.khatabookAccount.db.tables.EntityUserDao
 import reprator.khatabookAccount.service.setup
@@ -20,15 +21,19 @@ fun Application.module(testing: Boolean = false) {
     }
     routing {
         get("/") {
-            call.respond("Hello Vikram")
+           // call.respond("Hello Vikram")
+
+            runBlocking {
+                val dd = transaction {
+                    EntityUserDao.new {
+                        mobile = "90418he66058"
+                        isVerified = true
+                    }
+                }
+
+                call.respond("${dd.mobile}, helloo")
+            }
         }
     }
 
-
-    transaction {
-            EntityUserDao.new {
-                mobile = "90418he66058"
-                isVerified = true
-        }
-    }
 }
