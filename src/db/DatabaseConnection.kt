@@ -9,14 +9,14 @@ import org.jetbrains.exposed.sql.Database
  */
 object DatabaseConnection {
 
-    val hikariConfig = HikariConfig().apply {
+    private val hikariConfig = HikariConfig().apply {
         jdbcUrl = System.getenv("JDBC_DATABASE_URL")
     }
 
-    val dataSource = if (hikariConfig.jdbcUrl != null)
+    private val dataSource = if (hikariConfig.jdbcUrl != null)
         HikariDataSource(hikariConfig)
     else
-        HikariDataSource()
+        configureHikariCP()
 
     private fun configureHikariCP(): HikariDataSource {
         val config = HikariConfig("/hikari.properties")
