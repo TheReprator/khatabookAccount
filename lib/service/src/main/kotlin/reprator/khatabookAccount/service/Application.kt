@@ -1,4 +1,4 @@
-package reprator.khatabookAccount
+package reprator.khatabookAccount.service
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.util.DefaultIndenter
@@ -6,19 +6,15 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
 import io.ktor.features.*
-import io.ktor.http.*
+import io.ktor.http.ContentType.Application.Json
+import io.ktor.http.HttpHeaders.Accept
 import io.ktor.jackson.*
+import org.kodein.di.DI
 import org.kodein.di.ktor.di
 import org.slf4j.event.Level
-import reprator.khatabookAccount.accountService.account
-import reprator.khatabookAccount.accountService.moduleAccount
 import reprator.khatabookAccount.error.ErrorFeature
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
-
-@Suppress("unused")
-@kotlin.jvm.JvmOverloads
-fun Application.module() {
+fun Application.setup(configuration: DI.MainBuilder.() -> Unit) {
 
     install(ErrorFeature)
 
@@ -45,12 +41,12 @@ fun Application.module() {
     }
 
     install(DefaultHeaders) {
-        header(HttpHeaders.Accept, ContentType.Application.Json.toString())
+        header(Accept, Json.toString())
     }
 
     di {
-        import(account)
+        import(service())
+        configuration()
     }
-
-    moduleAccount()
 }
+

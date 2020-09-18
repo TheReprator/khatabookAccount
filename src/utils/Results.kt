@@ -1,3 +1,3 @@
 package reprator.khatabookAccount.utils
 
-open class BException(causedBy: Exception) : Exception(causedBy)
+open class KhatabookException(causedBy: Exception) : Exception(causedBy)
