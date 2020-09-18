@@ -13,9 +13,7 @@ import java.time.Instant
 data class ErrorResponse (
     val status: HttpStatusCode,
     val message: String?,
-    val path: String,
-    val time: Instant
-)
+    val path: String)
 
 suspend inline fun <reified T> HttpClient.post(url: String, requestBody: Any)
         = processResponse { post<T>(url) { body = requestBody; contentType(Json) } }

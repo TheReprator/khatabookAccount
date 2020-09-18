@@ -3,6 +3,7 @@ package reprator.khatabookAccount
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
 import io.ktor.features.*
@@ -38,7 +39,10 @@ fun Application.module() {
         jackson {
             enable(SerializationFeature.INDENT_OUTPUT) // Pretty Prints the JSON
 
+            configure(SerializationFeature.INDENT_OUTPUT, true)
+            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             setSerializationInclusion(JsonInclude.Include.NON_NULL)
+
             setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
                 indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
                 indentObjectsWith(DefaultIndenter("  ", "\n"))

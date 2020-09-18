@@ -32,7 +32,7 @@ class DefaultAccountResourceFactory(
                 throw AccountInvalidData("Phone Number can't be greater than 10")
         }
 
-        with(parentId){
+       val organizationId: Int =  with(parentId){
             if(null == this)
                 -1
             else
@@ -41,12 +41,12 @@ class DefaultAccountResourceFactory(
                 if (!parentOrganizationId) {
                     throw AccountInvalidData("Invalid Organization Id")
                 }
-                parentOrganizationId
+                this
             }
         }
 
 
-        val accountId = accountRepository.save(phoneNumber, isVerified, parentId!!)
-        return AccountResource(accountId, phoneNumber, isVerified, parentId)
+        val accountId = accountRepository.save(phoneNumber, isVerified, organizationId)
+        return AccountResource(accountId, phoneNumber, isVerified, organizationId)
     }
 }

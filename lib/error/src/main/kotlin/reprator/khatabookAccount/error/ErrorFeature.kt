@@ -28,7 +28,7 @@ class ErrorFeature private constructor() {
                 exception<Throwable> {
                     logger.error(it) { "Caught exception: ${it.message}" }
                     val status = if (it is StatusCodeException) it.statusCode else InternalServerError
-                    call.respond(status, ErrorResponse(status, it.message, call.request.path(), Instant.now()))
+                    call.respond(status, ErrorResponse(status, it.message, call.request.path()))
                 }
             }
 
