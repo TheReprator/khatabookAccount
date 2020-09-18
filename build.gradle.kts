@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 buildscript {
@@ -7,7 +6,7 @@ buildscript {
 
 plugins {
     application
-    kotlin("jvm") version "1.4.0"
+    kotlin("jvm") version "1.3.72"
 
     id("com.github.johnrengelman.shadow") version "5.2.0"
 }
@@ -71,11 +70,6 @@ kotlin.sourceSets["main"].kotlin.srcDirs("src")
 
 sourceSets["main"].resources.srcDirs("resources")
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
-
-
 tasks {
 
     val shadowJarTask = named<ShadowJar>("shadowJar") {
@@ -93,11 +87,5 @@ tasks {
 
     named("assemble") {
         dependsOn(shadowJarTask)
-    }
-}
-
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }

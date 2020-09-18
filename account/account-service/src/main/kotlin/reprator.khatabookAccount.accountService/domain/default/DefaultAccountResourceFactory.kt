@@ -2,7 +2,7 @@ package reprator.khatabookAccount.accountService.domain.default
 
 import org.kodein.di.DI
 import org.kodein.di.DIAware
-import org.kodein.di.erased.instance
+import org.kodein.di.instance
 import reprator.khatabookAccount.accountApi.ParentOrganization
 import reprator.khatabookAccount.accountApi.PhoneNumber
 import reprator.khatabookAccount.accountApi.VerificationStatus
@@ -17,7 +17,7 @@ class DefaultAccountResourceFactory(
     override val di: DI
 ) : DIAware, AccountResourceFactory {
 
-    private val accountRepository by di.instance<AccountRepository>()
+    private val accountRepository by instance<AccountRepository>("accountRepository")
 
     override suspend fun create(
         phoneNumber: PhoneNumber,

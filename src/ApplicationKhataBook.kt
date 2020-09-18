@@ -12,6 +12,7 @@ import org.kodein.di.ktor.di
 import org.slf4j.event.Level
 import reprator.khatabookAccount.accountService.account
 import reprator.khatabookAccount.accountService.moduleAccount
+import reprator.khatabookAccount.db.DatabaseConnection
 import reprator.khatabookAccount.error.ErrorFeature
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
@@ -30,6 +31,8 @@ fun Application.module() {
         level = Level.INFO
         callIdMdc("X-Request-ID")
     }
+
+    DatabaseConnection.connect()
 
     install(ContentNegotiation) {
         jackson {
