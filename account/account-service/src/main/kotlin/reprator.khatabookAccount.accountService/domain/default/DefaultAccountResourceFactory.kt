@@ -7,6 +7,7 @@ import reprator.khatabookAccount.accountApi.ParentOrganization
 import reprator.khatabookAccount.accountApi.PhoneNumber
 import reprator.khatabookAccount.accountApi.VerificationStatus
 import reprator.khatabookAccount.accountService.AccountInvalidData
+import reprator.khatabookAccount.accountService.AccountNotExistException
 import reprator.khatabookAccount.accountService.data.AccountRepository
 import reprator.khatabookAccount.accountService.data.AccountResource
 import reprator.khatabookAccount.accountService.domain.AccountResourceFactory
@@ -32,11 +33,10 @@ class DefaultAccountResourceFactory(
                 throw AccountInvalidData("Phone Number can't be greater than 10")
         }
 
-       val organizationId: Int =  with(parentId){
-            if(null == this)
+        val organizationId: Int = with(parentId) {
+            if (null == this)
                 -1
-            else
-            {
+            else {
                 val parentOrganizationId = accountRepository.getParentOrganization(this)
                 if (!parentOrganizationId) {
                     throw AccountInvalidData("Invalid Organization Id")
@@ -45,8 +45,12 @@ class DefaultAccountResourceFactory(
             }
         }
 
-
-        val accountId = accountRepository.save(phoneNumber, isVerified, organizationId)
-        return AccountResource(accountId, phoneNumber, isVerified, organizationId)
+        try {
+            accountRepository.select(phoneNumber, organizationId)
+            throw AccountInvalidData("Account already exit with this organization ID")
+        } catch (exception: AccountNotExistException) {
+            val accountId = accountRepository.save(phoneNumber, isVerified, organizationId)
+            return AccountResource(accountId, phoneNumber, isVerified, organizationId)
+        }
     }
 }

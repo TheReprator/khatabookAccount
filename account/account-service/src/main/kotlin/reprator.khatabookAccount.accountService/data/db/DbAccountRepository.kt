@@ -1,10 +1,9 @@
 package reprator.khatabookAccount.accountService.data.db
 
+import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.transactions.transaction
-import reprator.khatabookAccount.accountApi.AccountId
-import reprator.khatabookAccount.accountApi.ParentOrganization
-import reprator.khatabookAccount.accountApi.PhoneNumber
-import reprator.khatabookAccount.accountApi.VerificationStatus
+import reprator.khatabookAccount.accountApi.*
+import reprator.khatabookAccount.accountService.AccountNotExistException
 import reprator.khatabookAccount.accountService.data.AccountRepository
 
 class DbAccountRepository : AccountRepository {
@@ -25,5 +24,17 @@ class DbAccountRepository : AccountRepository {
 
     override suspend fun getParentOrganization(organizationId: ParentOrganization): Boolean {
         return true
+    }
+
+    override suspend fun select(argsPhoneNumber: PhoneNumber, organizationId: ParentOrganization): Account {
+        val result = transaction {
+             EntityUserDao.find {
+                TableUser.mobile eq argsPhoneNumber and (TableUser.parentId eq organizationId)
+            }.limit(1).singleOrNull()
+        }
+        if (null == result)
+            throw AccountNotExistException("User doesn't exist")
+        else
+            return Account.DTO(result.id.value, result.mobile, result.isVerified, result.parentId)
     }
 }
