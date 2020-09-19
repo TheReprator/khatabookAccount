@@ -1,26 +1,20 @@
-package reprator.khatabookAccount
+package reprator.khatabookAccount.service
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.util.DefaultIndenter
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
-import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
 import io.ktor.features.*
-import io.ktor.http.*
+import io.ktor.http.ContentType.Application.Json
+import io.ktor.http.HttpHeaders.Accept
 import io.ktor.jackson.*
+import org.kodein.di.DI
 import org.kodein.di.ktor.di
 import org.slf4j.event.Level
-import reprator.khatabookAccount.accountService.account
-import reprator.khatabookAccount.accountService.moduleAccount
-import reprator.khatabookAccount.db.DatabaseConnection
 import reprator.khatabookAccount.error.ErrorFeature
 
-fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
-
-@Suppress("unused")
-@kotlin.jvm.JvmOverloads
-fun Application.module() {
+fun Application.setup(configuration: DI.MainBuilder.() -> Unit) {
 
     install(ErrorFeature)
 
@@ -33,16 +27,11 @@ fun Application.module() {
         callIdMdc("X-Request-ID")
     }
 
-    DatabaseConnection.connect()
-
     install(ContentNegotiation) {
         jackson {
             enable(SerializationFeature.INDENT_OUTPUT) // Pretty Prints the JSON
 
-            configure(SerializationFeature.INDENT_OUTPUT, true)
-            configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
             setSerializationInclusion(JsonInclude.Include.NON_NULL)
-
             setDefaultPrettyPrinter(DefaultPrettyPrinter().apply {
                 indentArraysWith(DefaultPrettyPrinter.FixedSpaceIndenter.instance)
                 indentObjectsWith(DefaultIndenter("  ", "\n"))
@@ -52,12 +41,12 @@ fun Application.module() {
     }
 
     install(DefaultHeaders) {
-        header(HttpHeaders.Accept, ContentType.Application.Json.toString())
+        header(Accept, Json.toString())
     }
 
     di {
-        import(account)
+        import(service())
+        configuration()
     }
-
-    moduleAccount()
 }
+

@@ -4,9 +4,6 @@ import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
 
-/**
- * Meta object regrouping setup and utility functions for PostgreSQL.
- */
 object DatabaseConnection {
 
     private val hikariConfig = HikariConfig().apply {

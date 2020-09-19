@@ -21,7 +21,7 @@ object Dependencies {
         const val logging = "io.github.microutils:kotlin-logging:${Versions.kotlinLogging}"
 
         object Database{
-            const val postGresSQL = "org.postgresql:postgresql:42.2.14"
+            const val postGresSQL = "org.postgresql:postgresql:42.2.16"
             const val exposedCore = "org.jetbrains.exposed:exposed-core:${Versions.exposed}"
             const val exposedJdbc = "org.jetbrains.exposed:exposed-jdbc:${Versions.exposed}"
             const val exposedDao = "org.jetbrains.exposed:exposed-dao:${Versions.exposed}"
@@ -63,15 +63,26 @@ object Dependencies {
             const val auth = "$prefix-auth:${Versions.ktorServer}"
             const val jwt = "$prefix-auth-jwt:${Versions.ktorServer}"
             const val jackson = "$prefix-jackson:${Versions.ktorServer}"
+
+
+
+            private const val cprefix = "$prefix-client"
+
+            const val cio = "$cprefix-cio:${Versions.ktor}"
+            const val core = "$cprefix-core:${Versions.ktor}"
+            const val coreJvm = "$cprefix-core-jvm:${Versions.ktor}"
+            const val json = "$cprefix-json:${Versions.ktor}"
+            const val jsonJvm = "$cprefix-json-jvm:${Versions.ktor}"
+            const val clientJackson = "$cprefix-jackson:${Versions.ktor}"
         }
     }
 
     object Kodein {
         private const val prefix = "org.kodein.di:kodein-di"
-        private const val version = Versions.kodein
+        private const val version = "7.0.0"
 
-        const val core = "$prefix-core:$version"
-        const val generic = "$prefix-generic-jvm:$version"
+       /* implementation("org.kodein.di:kodein-di-framework-ktor-server-jvm:7.0.0")
+        implementation("org.kodein.di:kodein-di-framework-ktor-server-controller-jvm:7.0.0")*/
 
         object Ktor {
             private const val kprefix = "$prefix-framework-ktor-server"
