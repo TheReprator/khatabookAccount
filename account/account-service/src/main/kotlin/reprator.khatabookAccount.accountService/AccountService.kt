@@ -22,7 +22,6 @@ fun Application.moduleAccount() {
        }
    */
     transaction {
-        addLogger(StdOutSqlLogger)
         SchemaUtils.create(TableUser)
     }
 

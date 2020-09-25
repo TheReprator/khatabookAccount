@@ -7,16 +7,15 @@ import reprator.khatabookAccount.accountApi.ParentOrganization
 import reprator.khatabookAccount.accountApi.PhoneNumber
 import reprator.khatabookAccount.accountApi.VerificationStatus
 import reprator.khatabookAccount.accountService.AccountInvalidData
-import reprator.khatabookAccount.accountService.AccountNotExistException
 import reprator.khatabookAccount.accountService.data.AccountRepository
 import reprator.khatabookAccount.accountService.data.AccountResource
 import reprator.khatabookAccount.accountService.domain.AccountResourceFactory
-
-private const val LENGTH_PHONENUMBER = 10
+import reprator.khatabookAccount.accountService.domain.default.validation.PhoneValidator
+import reprator.khatabookAccount.accountService.domain.default.validation.PhoneValidatorImpl
 
 class DefaultAccountResourceFactory(
     override val di: DI
-) : DIAware, AccountResourceFactory {
+) : DIAware, PhoneValidator by PhoneValidatorImpl, AccountResourceFactory {
 
     private val accountRepository by instance<AccountRepository>("accountRepository")
 
@@ -26,12 +25,8 @@ class DefaultAccountResourceFactory(
         parentId: ParentOrganization?
     ): AccountResource {
 
-        phoneNumber.let {
-            if (LENGTH_PHONENUMBER > it.length)
-                throw AccountInvalidData("Phone Number can't be less than 10")
-            else if (LENGTH_PHONENUMBER < it.length)
-                throw AccountInvalidData("Phone Number can't be greater than 10")
-        }
+        if (!validatePhoneNumber(phoneNumber))
+            throw AccountInvalidData("Phone Number can't be less & greater than 10")
 
         val organizationId: Int = with(parentId) {
             if (null == this)
@@ -45,11 +40,10 @@ class DefaultAccountResourceFactory(
             }
         }
 
-        try {
-            accountRepository.select(phoneNumber, organizationId)
+        if (accountRepository.isUserExist(phoneNumber, organizationId))
             throw AccountInvalidData("Account already exit with this organization ID")
-        } catch (exception: AccountNotExistException) {
-            val accountId = accountRepository.save(phoneNumber, isVerified, organizationId)
+        else {
+            val accountId = accountRepository.saveUser(phoneNumber, isVerified, organizationId)
             return AccountResource(accountId, phoneNumber, isVerified, organizationId)
         }
     }

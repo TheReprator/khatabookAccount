@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.util.DefaultPrettyPrinter
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.SerializationFeature
 import io.ktor.application.*
+import io.ktor.auth.*
 import io.ktor.features.*
 import io.ktor.http.*
 import io.ktor.jackson.*
@@ -13,6 +14,7 @@ import org.kodein.di.ktor.di
 import org.slf4j.event.Level
 import reprator.khatabookAccount.accountService.account
 import reprator.khatabookAccount.accountService.moduleAccount
+import reprator.khatabookAccount.auth.authenticationJWT
 import reprator.khatabookAccount.db.DatabaseConnection
 import reprator.khatabookAccount.error.ErrorFeature
 
@@ -53,6 +55,10 @@ fun Application.module() {
 
     install(DefaultHeaders) {
         header(HttpHeaders.Accept, ContentType.Application.Json.toString())
+    }
+
+    install(Authentication) {
+        authenticationJWT()
     }
 
     di {
