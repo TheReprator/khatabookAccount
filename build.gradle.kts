@@ -1,4 +1,5 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript {
     repositories { jcenter() }
@@ -87,5 +88,12 @@ tasks {
 
     named("assemble") {
         dependsOn(shadowJarTask)
+    }
+}
+
+tasks.withType<KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=kotlin.contracts.ExperimentalContracts")
     }
 }
