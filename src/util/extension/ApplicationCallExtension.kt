@@ -1,5 +1,6 @@
 package reprator.khatabookAccount.util.extension
 
+/*
 import io.ktor.application.ApplicationCall
 import io.ktor.auth.jwt.JWTPrincipal
 import io.ktor.auth.principal
@@ -9,3 +10,4 @@ val ApplicationCall.userLoginFromPrincipal
         val login = principal<JWTPrincipal>()?.payload?.userLogin
         checkNotNull(login) { "User authentication required" }
     }
+*/

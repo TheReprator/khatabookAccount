@@ -25,6 +25,7 @@ object Dependencies {
             const val exposedCore = "org.jetbrains.exposed:exposed-core:${Versions.exposed}"
             const val exposedJdbc = "org.jetbrains.exposed:exposed-jdbc:${Versions.exposed}"
             const val exposedDao = "org.jetbrains.exposed:exposed-dao:${Versions.exposed}"
+            const val exposedJodaTime = "org.jetbrains.exposed:exposed-jodatime:${Versions.exposed}"
         }
 
         object Test {

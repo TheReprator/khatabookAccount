@@ -31,5 +31,8 @@ dependencies {
     implementation(Dependencies.Ktor.Client.jackson)
     implementation(Dependencies.Java.Jackson.params)
 
+    implementation(Dependencies.Ktor.Client.auth)
+    implementation(Dependencies.Ktor.Client.jwt)
+
     api(project(":lib:error"))
 }

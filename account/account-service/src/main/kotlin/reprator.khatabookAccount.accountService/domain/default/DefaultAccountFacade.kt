@@ -6,10 +6,13 @@ import org.kodein.di.instance
 import reprator.khatabookAccount.accountApi.ParentOrganization
 import reprator.khatabookAccount.accountApi.PhoneNumber
 import reprator.khatabookAccount.accountApi.VerificationStatus
+import reprator.khatabookAccount.accountService.data.AccountAccessTokenResource
 import reprator.khatabookAccount.accountService.data.AccountResource
+import reprator.khatabookAccount.accountService.domain.AccessTokenEntity
 import reprator.khatabookAccount.accountService.domain.AccountEntity
 import reprator.khatabookAccount.accountService.domain.AccountFacade
 import reprator.khatabookAccount.accountService.domain.AccountResourceFactory
+import reprator.khatabookAccount.service.JWTAuthenticatedUser
 
 class DefaultAccountFacade(
     override val di: DI
@@ -26,8 +29,26 @@ class DefaultAccountFacade(
         return result.toAccountEntity()
     }
 
+    override suspend fun refreshToken(
+        accessToken: String,
+        refreshToken: String,
+        authenticatedUser: JWTAuthenticatedUser
+    ): AccessTokenEntity {
+        val result = factory.refreshToken(accessToken, refreshToken, authenticatedUser)
+        return result.toAccountAccessTokenEntity()
+    }
+
     private fun AccountResource.toAccountEntity() = AccountEntity.DTO(
         id, phoneNumber,
-        isVerified, parentId
+        isVerified,
+        parentId,
+
+        accessToken,
+        refreshToken
+    )
+
+    private fun AccountAccessTokenResource.toAccountAccessTokenEntity() = AccessTokenEntity.DTO(
+        accessToken,
+        refreshToken
     )
 }

@@ -14,6 +14,7 @@ import org.kodein.di.ktor.di
 import org.slf4j.event.Level
 import reprator.khatabookAccount.error.ErrorFeature
 
+/*
 fun Application.setup(configuration: DI.MainBuilder.() -> Unit) {
 
     install(ErrorFeature)
@@ -49,4 +50,5 @@ fun Application.setup(configuration: DI.MainBuilder.() -> Unit) {
         configuration()
     }
 }
+*/
 

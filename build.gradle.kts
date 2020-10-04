@@ -27,6 +27,7 @@ repositories {
 dependencies {
 
     implementation(project(":lib:error"))
+    implementation(project(":lib:service"))
     implementation(project(":account:account-service"))
     implementation(kotlin("stdlib-jdk8"))
 

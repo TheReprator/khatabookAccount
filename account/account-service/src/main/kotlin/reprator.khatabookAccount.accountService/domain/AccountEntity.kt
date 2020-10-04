@@ -1,9 +1,6 @@
 package reprator.khatabookAccount.accountService.domain
 
-import reprator.khatabookAccount.accountApi.AccountId
-import reprator.khatabookAccount.accountApi.ParentOrganization
-import reprator.khatabookAccount.accountApi.PhoneNumber
-import reprator.khatabookAccount.accountApi.VerificationStatus
+import reprator.khatabookAccount.accountApi.*
 
 interface AccountEntity {
     val id: AccountId
@@ -11,10 +8,16 @@ interface AccountEntity {
     val isVerified: VerificationStatus
     val parentId: ParentOrganization
 
+    val accessToken: ModelsAccessToken
+    val refreshToken: ModelsAccessToken
+
     data class DTO(
         override val id: AccountId,
         override val phoneNumber: PhoneNumber,
         override val isVerified: VerificationStatus,
-        override val parentId: ParentOrganization
+        override val parentId: ParentOrganization,
+
+        override val accessToken: ModelsAccessToken,
+        override val refreshToken: ModelsAccessToken
     ) : AccountEntity
 }
