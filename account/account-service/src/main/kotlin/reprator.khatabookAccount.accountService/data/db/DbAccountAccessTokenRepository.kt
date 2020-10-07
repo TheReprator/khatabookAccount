@@ -42,4 +42,16 @@ class DbAccountAccessTokenRepository : AccountAccessTokenRepository {
             }
         }
     }
+
+    override suspend fun disableToken(argAccountId: AccountId, argAccessToken: ModelsAccessToken) {
+        transaction {
+            TableUserAccessToken.update({
+                (TableUserAccessToken.userId eq argAccountId) and
+                        (TableUserAccessToken.accessToken eq argAccessToken)
+            }) {
+                it[updatedAt] = DateTime.now()
+                it[isActive] = false
+            }
+        }
+    }
 }

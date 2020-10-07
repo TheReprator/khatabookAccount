@@ -7,6 +7,7 @@ import org.kodein.di.ktor.di
 import reprator.khatabookAccount.accountService.domain.token.JWTTokenVerifyingService
 import reprator.khatabookAccount.accountService.domain.token.JWTTokenVerifyingServiceImpl
 import reprator.khatabookAccount.accountService.domain.token.JwtTokenService
+import reprator.khatabookAccount.service.AUTH_SCHEME
 import reprator.khatabookAccount.service.JWTAuthenticatedUser
 
 
@@ -17,7 +18,7 @@ fun Authentication.Configuration.authenticationJWT() {
         realm = "reprator.khatabookAccount"
 
         verifier(JWTTokenVerifyingServiceImpl.buildJWTVerifier())
-        //authSchemes("Token")
+        authSchemes(AUTH_SCHEME)
 
         validate {
             val userId = it.payload.getClaim(JwtTokenService.CLAIM_USER_ID).asInt()

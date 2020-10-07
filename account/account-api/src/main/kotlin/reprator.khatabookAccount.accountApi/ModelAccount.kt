@@ -27,8 +27,7 @@ interface AccountInfo {
 interface Account : AccountInfo {
     val id: AccountId
 
-    val accessToken: ModelsAccessToken
-    val refreshToken: ModelsAccessToken
+    val accessTokenInfo: AccessTokenInfo
 
     data class DTO(
         override val id: AccountId,
@@ -36,7 +35,6 @@ interface Account : AccountInfo {
         override val isVerified: VerificationStatus,
         override val parentId: ParentOrganization,
 
-        override val accessToken: ModelsAccessToken,
-        override val refreshToken: ModelsAccessToken
+        override val accessTokenInfo: AccessTokenInfo
     ) : Account
 }

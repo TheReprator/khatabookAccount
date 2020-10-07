@@ -4,10 +4,7 @@ import io.ktor.application.*
 import org.kodein.di.DI
 import org.kodein.di.instance
 import org.kodein.di.ktor.di
-import reprator.khatabookAccount.accountApi.AccessToken
-import reprator.khatabookAccount.accountApi.AccessTokenInfo
-import reprator.khatabookAccount.accountApi.Account
-import reprator.khatabookAccount.accountApi.AccountInfo
+import reprator.khatabookAccount.accountApi.*
 import reprator.khatabookAccount.accountService.controller.AbstractAccountController
 import reprator.khatabookAccount.accountService.domain.AccountEntity
 import reprator.khatabookAccount.accountService.domain.AccountFacade
@@ -33,11 +30,18 @@ class DefaultAccountController(
         return AccessToken.DTO(accountEntity.accessToken, accountEntity.refreshToken)
     }
 
+    override suspend fun logout(
+        authenticatedUser: JWTAuthenticatedUser,
+        accessToken: ModelsAccessToken,
+        isLogout: Boolean
+    ) {
+        facade.logout(authenticatedUser.userId, accessToken)
+    }
+
     private fun AccountEntity.toAccount() = Account.DTO(
         id, phoneNumber,
         isVerified,
         parentId,
-        accessToken,
-        refreshToken
+        AccessTokenInfo.DTO(accessTokenEntity.accessToken, accessTokenEntity.refreshToken)
     )
 }

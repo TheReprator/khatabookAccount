@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "05e9dd34-3efe-4ba0-913d-fa83ac49e862",
+		"name": "khatabook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"phoneNumber\": \"9041866055\",\r\n    \"isVerified\": false, \r\n    \"parentId\": -1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8080/api/v1/accounts",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refreshToken",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InJlcHJhdG9yLmtoYXRhYm9va0FjY291bnQiLCJ1c2VyUGhvbmVOdW1iZXIiOiI5MDQxODY2MDU1IiwidXNlck9yZ2FuaXphdGlvbklkIjotMSwiZXhwIjoxNjAyMTU0ODA1LCJ1c2VySWQiOjF9.tJDEC6v_rbkDa4sUzDrLAepzifxY0MbaFui3Soe8nUtUis1EGu0y5IdKXJIRSXVmxjASeTS3gKfY9FgG3puZ3Q",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "refreshToken",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InJlcHJhdG9yLmtoYXRhYm9va0FjY291bnQiLCJ1c2VyUGhvbmVOdW1iZXIiOiI5MDQxODY2MDU1IiwidXNlck9yZ2FuaXphdGlvbklkIjotMSwiZXhwIjoxNjAyOTMyNDA1LCJ1c2VySWQiOjF9.cs-m9fOrUcxHNvlIINty8-3yPfKc4n1wg1fQA38PCJs8JAAdPdxU3emWQ0_QvxIFmAPtkFlhTGyU50t40j5ytw",
+							"type": "text"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://0.0.0.0:8080/api/v1/accounts/refreshToken",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"accounts",
+						"refreshToken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBdXRoZW50aWNhdGlvbiIsImlzcyI6InJlcHJhdG9yLmtoYXRhYm9va0FjY291bnQiLCJ1c2VyUGhvbmVOdW1iZXIiOiI5MDQxODY2MDU1IiwidXNlck9yZ2FuaXphdGlvbklkIjotMSwiZXhwIjoxNjAyMTYxODQ2LCJ1c2VySWQiOjF9.z8d5cAEPYF1CrJPVANMTxqCzhocdLfsBVwupWRfoLzhwCw9QSbZoWb55U7ZSYNya9O4QFOMI6N5aSsPxWI10gA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://0.0.0.0:8080/api/v1/accounts/logout",
+					"protocol": "http",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"accounts",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

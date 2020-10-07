@@ -1,4 +1,5 @@
 ## Account managment API
+Please find the postman collection in http-request folder
 
 ### Technologies used
 

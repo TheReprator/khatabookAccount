@@ -1,10 +1,7 @@
 package reprator.khatabookAccount.accountService.controller
 
 import org.kodein.di.ktor.controller.DIController
-import reprator.khatabookAccount.accountApi.AccessToken
-import reprator.khatabookAccount.accountApi.AccessTokenInfo
-import reprator.khatabookAccount.accountApi.Account
-import reprator.khatabookAccount.accountApi.AccountInfo
+import reprator.khatabookAccount.accountApi.*
 import reprator.khatabookAccount.service.JWTAuthenticatedUser
 
 /**
@@ -13,6 +10,14 @@ import reprator.khatabookAccount.service.JWTAuthenticatedUser
 interface AccountController : DIController {
     suspend fun create(info: AccountInfo): Account
 
-    suspend fun refreshToken(authenticatedUser: JWTAuthenticatedUser,
-                             info: AccessTokenInfo): AccessToken
+    suspend fun refreshToken(
+        authenticatedUser: JWTAuthenticatedUser,
+        info: AccessTokenInfo
+    ): AccessToken
+
+    suspend fun logout(
+        authenticatedUser: JWTAuthenticatedUser,
+        accessToken: ModelsAccessToken,
+        isLogout: Boolean = true
+    )
 }

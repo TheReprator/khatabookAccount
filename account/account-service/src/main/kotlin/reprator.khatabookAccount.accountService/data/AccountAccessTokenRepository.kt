@@ -15,4 +15,9 @@ interface AccountAccessTokenRepository {
         argAccessToken: ModelsAccessToken,
         argRefreshToken: ModelsAccessToken, argDisableToken: Boolean = false
     )
+
+    suspend fun disableToken(
+        argAccountId: AccountId,
+        argAccessToken: ModelsAccessToken
+    )
 }

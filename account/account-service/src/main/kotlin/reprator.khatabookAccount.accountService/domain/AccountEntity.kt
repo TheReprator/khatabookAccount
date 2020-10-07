@@ -8,16 +8,13 @@ interface AccountEntity {
     val isVerified: VerificationStatus
     val parentId: ParentOrganization
 
-    val accessToken: ModelsAccessToken
-    val refreshToken: ModelsAccessToken
+    val accessTokenEntity: AccessTokenEntity
 
     data class DTO(
         override val id: AccountId,
         override val phoneNumber: PhoneNumber,
         override val isVerified: VerificationStatus,
         override val parentId: ParentOrganization,
-
-        override val accessToken: ModelsAccessToken,
-        override val refreshToken: ModelsAccessToken
+        override val accessTokenEntity: AccessTokenEntity
     ) : AccountEntity
 }

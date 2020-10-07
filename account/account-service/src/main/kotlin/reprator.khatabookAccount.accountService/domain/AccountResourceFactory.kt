@@ -23,4 +23,9 @@ interface AccountResourceFactory {
         argRefreshToken: ModelsAccessToken,
         authenticatedUser: JWTAuthenticatedUser
     )
+
+    suspend fun logout(
+        userId: AccountId,
+        argAccessToken: ModelsAccessToken
+    )
 }

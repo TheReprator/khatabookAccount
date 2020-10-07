@@ -25,13 +25,11 @@ class EntityUserDao(id: EntityID<Int>) : IntEntity(id) {
     var createdAt by TableUser.createdAt
 }
 
-private const val MAX_COLUMN_LENGTH = 1000
-
 object TableUserAccessToken : Table(name = "AccessToken") {
     val createdAt = datetime("created_at").clientDefault { DateTime.now() }
     val updatedAt = datetime("updated_at").nullable()
-    val accessToken = varchar("accessToken", MAX_COLUMN_LENGTH)
-    val refreshToken = varchar("refreshToken", MAX_COLUMN_LENGTH)
+    val accessToken = text("accessToken")
+    val refreshToken = text("refreshToken")
     val isActive = bool("isActive").default(true)
     val userId = integer("userId").references(TableUser.id, onDelete = ReferenceOption.CASCADE,
         onUpdate = ReferenceOption.CASCADE)

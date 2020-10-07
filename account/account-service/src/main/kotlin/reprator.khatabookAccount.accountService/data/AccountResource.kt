@@ -8,8 +8,7 @@ data class AccountResource(
         val isVerified: VerificationStatus,
         val parentId: ParentOrganization,
 
-        val accessToken: ModelsAccessToken,
-        val refreshToken: ModelsAccessToken
+        val accountAccessTokenResource: AccountAccessTokenResource
 )
 
 

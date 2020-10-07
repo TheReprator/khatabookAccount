@@ -3,10 +3,7 @@ package reprator.khatabookAccount.accountService.domain.default
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
-import reprator.khatabookAccount.accountApi.ModelsAccessToken
-import reprator.khatabookAccount.accountApi.ParentOrganization
-import reprator.khatabookAccount.accountApi.PhoneNumber
-import reprator.khatabookAccount.accountApi.VerificationStatus
+import reprator.khatabookAccount.accountApi.*
 import reprator.khatabookAccount.accountService.AccountInvalidAuthorization
 import reprator.khatabookAccount.accountService.AccountInvalidData
 import reprator.khatabookAccount.accountService.data.AccountAccessTokenRepository
@@ -63,7 +60,7 @@ class DefaultAccountResourceFactory(
 
             return AccountResource(
                 accountId, phoneNumber, isVerified, organizationId,
-                accessToken, refreshToken
+                AccountAccessTokenResource(accessToken, refreshToken)
             )
         }
     }
@@ -74,14 +71,15 @@ class DefaultAccountResourceFactory(
         authenticatedUser: JWTAuthenticatedUser
     ): AccountAccessTokenResource {
 
-        if (accessToken.isNullOrBlank())
+        if (accessToken.isBlank())
             throw AccountInvalidAuthorization("Invalid Token ID")
 
-        if (refreshToken.isNullOrBlank())
+        if (refreshToken.isBlank())
             throw AccountInvalidAuthorization("Invalid Refresh Token ID")
 
         accountTokenRepository.updateUserToken(
-            authenticatedUser.userId, accessToken, refreshToken)
+            authenticatedUser.userId, accessToken, refreshToken
+        )
 
         val newAccessToken = tokenService.generateAccessToken(
             authenticatedUser.userId, authenticatedUser.phoneNumber,
@@ -107,5 +105,9 @@ class DefaultAccountResourceFactory(
             authenticatedUser.userId, argAccessToken,
             argRefreshToken
         )
+    }
+
+    override suspend fun logout(userId: AccountId, argAccessToken: ModelsAccessToken) {
+        accountTokenRepository.disableToken(userId, argAccessToken)
     }
 }
