@@ -30,7 +30,7 @@ object TableUserAccessToken : Table(name = "AccessToken") {
     val updatedAt = datetime("updated_at").nullable()
     val accessToken = text("accessToken")
     val refreshToken = text("refreshToken")
-    val isActive = bool("isActive").default(true)
+    val isActive = bool("isActive").clientDefault { true }
     val userId = integer("userId").references(TableUser.id, onDelete = ReferenceOption.CASCADE,
         onUpdate = ReferenceOption.CASCADE)
 }

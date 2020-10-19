@@ -26,7 +26,7 @@ class DefaultAccountController(
     }
 
     override suspend fun refreshToken(authenticatedUser: JWTAuthenticatedUser, info: AccessTokenInfo): AccessToken {
-        val accountEntity = facade.refreshToken(info.accessToken, info.refreshToken, authenticatedUser)
+        val accountEntity = facade.refreshToken(info.accessToken.trim(), info.refreshToken.trim(), authenticatedUser)
         return AccessToken.DTO(accountEntity.accessToken, accountEntity.refreshToken)
     }
 
@@ -35,7 +35,7 @@ class DefaultAccountController(
         accessToken: ModelsAccessToken,
         isLogout: Boolean
     ) {
-        facade.logout(authenticatedUser.userId, accessToken)
+        facade.logout(authenticatedUser.userId, accessToken.trim())
     }
 
     private fun AccountEntity.toAccount() = Account.DTO(
