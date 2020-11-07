@@ -12,9 +12,10 @@ import io.ktor.http.*
 import io.ktor.jackson.*
 import org.kodein.di.ktor.di
 import org.slf4j.event.Level
-import reprator.khatabookAccount.accountService.account
+import reprator.khatabookAccount.accountService.accountModule
+import reprator.khatabookAccount.accountService.authenticationJWT
+import reprator.khatabookAccount.accountService.jwtModule
 import reprator.khatabookAccount.accountService.moduleAccount
-import reprator.khatabookAccount.auth.authenticationJWT
 import reprator.khatabookAccount.db.DatabaseConnection
 import reprator.khatabookAccount.error.ErrorFeature
 
@@ -33,6 +34,10 @@ fun Application.module() {
     install(CallLogging) {
         level = Level.INFO
         callIdMdc("X-Request-ID")
+    }
+
+    install(Authentication){
+        authenticationJWT()
     }
 
     DatabaseConnection.connect()
@@ -57,13 +62,26 @@ fun Application.module() {
         header(HttpHeaders.Accept, ContentType.Application.Json.toString())
     }
 
-    install(Authentication) {
-        authenticationJWT()
-    }
 
     di {
-        import(account)
+        import(accountModule)
+        import(jwtModule)
     }
 
     moduleAccount()
 }
+/*
+
+private suspend fun Application.validateCredential(jwtCredential: JWTCredential) =
+    if (accountRepository.isUserExist(
+            jwtCredential.payload.getClaim("").asString(),
+            jwtCredential.payload.getClaim("").asString().toInt()
+        )
+    ) {
+        JWTUser(
+            jwtCredential.payload.getClaim("").asString(),
+            jwtCredential.payload.getClaim("").asString()
+        )
+    } else {
+        null
+    }*/

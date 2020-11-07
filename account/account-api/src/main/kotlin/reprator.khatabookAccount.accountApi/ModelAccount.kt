@@ -13,6 +13,7 @@ interface AccountInfo {
     val isVerified: VerificationStatus
     val parentId: ParentOrganization?
 
+
     data class DTO(
         override val phoneNumber: PhoneNumber,
         override val isVerified: VerificationStatus,
@@ -26,10 +27,14 @@ interface AccountInfo {
 interface Account : AccountInfo {
     val id: AccountId
 
+    val accessTokenInfo: AccessTokenInfo
+
     data class DTO(
         override val id: AccountId,
         override val phoneNumber: PhoneNumber,
         override val isVerified: VerificationStatus,
-        override val parentId: ParentOrganization
+        override val parentId: ParentOrganization,
+
+        override val accessTokenInfo: AccessTokenInfo
     ) : Account
 }

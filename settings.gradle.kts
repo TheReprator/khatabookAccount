@@ -10,7 +10,8 @@ arrayOf(
 
 // Libs
 arrayOf(
-    "error"
+    "error",
+    "service"
 ).forEach {
     include("lib:$it")
 }

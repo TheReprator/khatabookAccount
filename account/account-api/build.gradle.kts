@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 repositories {
     mavenLocal()
     jcenter()
@@ -32,4 +34,9 @@ dependencies {
     implementation(Dependencies.Kodein.Ktor.server)
 
     implementation(Dependencies.Kotlin.coroutineCore)
+}
+val compileKotlin: KotlinCompile by tasks
+
+compileKotlin.kotlinOptions {
+    freeCompilerArgs = listOf("-Xinline-classes")
 }

@@ -21,10 +21,11 @@ object Dependencies {
         const val logging = "io.github.microutils:kotlin-logging:${Versions.kotlinLogging}"
 
         object Database{
-            const val postGresSQL = "org.postgresql:postgresql:42.2.16"
+            const val postGresSQL = "org.postgresql:postgresql:42.2.18"
             const val exposedCore = "org.jetbrains.exposed:exposed-core:${Versions.exposed}"
             const val exposedJdbc = "org.jetbrains.exposed:exposed-jdbc:${Versions.exposed}"
             const val exposedDao = "org.jetbrains.exposed:exposed-dao:${Versions.exposed}"
+            const val exposedJodaTime = "org.jetbrains.exposed:exposed-jodatime:${Versions.exposed}"
         }
 
         object Test {

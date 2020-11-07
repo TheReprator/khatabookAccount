@@ -1,16 +1,14 @@
 package reprator.khatabookAccount.error
 
-import io.ktor.application.Application
-import io.ktor.application.ApplicationFeature
-import io.ktor.application.call
-import io.ktor.application.install
-import io.ktor.features.StatusPages
+import io.ktor.application.*
+import io.ktor.features.*
+import io.ktor.http.*
 import io.ktor.http.HttpStatusCode.Companion.InternalServerError
-import io.ktor.request.path
-import io.ktor.response.respond
-import io.ktor.util.AttributeKey
+import io.ktor.request.*
+import io.ktor.response.*
+import io.ktor.util.*
 import mu.KLogging
-import java.time.Instant
+import javax.naming.AuthenticationException
 
 /**
  * A feature which allows to automatically send an error response on exceptions.

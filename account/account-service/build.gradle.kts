@@ -16,6 +16,7 @@ plugins {
 dependencies {
     implementation(project(":account:account-api"))
     implementation(project(":lib:error"))
+    implementation(project(":lib:service"))
 
     implementation(kotlin("stdlib-jdk8"))
 
@@ -42,10 +43,18 @@ dependencies {
     implementation(Dependencies.Kotlin.Database.exposedCore)
     implementation(Dependencies.Kotlin.Database.exposedJdbc)
     implementation(Dependencies.Kotlin.Database.exposedDao)
+    implementation(Dependencies.Kotlin.Database.exposedJodaTime)
+
+    implementation(Dependencies.Ktor.Client.auth)
+    implementation(Dependencies.Ktor.Client.jwt)
 }
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    freeCompilerArgs = listOf("-Xinline-classes")
 }

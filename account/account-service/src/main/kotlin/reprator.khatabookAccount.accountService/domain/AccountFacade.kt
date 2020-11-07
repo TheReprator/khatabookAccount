@@ -1,9 +1,8 @@
 package reprator.khatabookAccount.accountService.domain
 
-import reprator.khatabookAccount.accountApi.ParentOrganization
-import reprator.khatabookAccount.accountApi.PhoneNumber
-import reprator.khatabookAccount.accountApi.VerificationStatus
+import reprator.khatabookAccount.accountApi.*
 import reprator.khatabookAccount.accountService.AccountInvalidData
+import reprator.khatabookAccount.service.JWTAuthenticatedUser
 
 interface AccountFacade {
 
@@ -13,4 +12,21 @@ interface AccountFacade {
         parentId: ParentOrganization?
     ): AccountEntity
 
+    @Throws(AccountInvalidData::class)
+    suspend fun refreshToken(
+        accessToken: String, refreshToken: String,
+        authenticatedUser: JWTAuthenticatedUser
+    ): AccessTokenEntity
+
+    @Throws(AccountInvalidData::class)
+    suspend fun logout(
+        userId: AccountId,
+        accessToken: String
+    )
+
+    @Throws(AccountInvalidData::class)
+    suspend fun isTokenValid(
+        userId: AccountId,
+        accessToken: ModelsAccessToken
+    ): Boolean
 }
