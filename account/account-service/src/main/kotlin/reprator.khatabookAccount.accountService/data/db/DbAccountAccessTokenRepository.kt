@@ -2,6 +2,7 @@ package reprator.khatabookAccount.accountService.data.db
 
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 import org.joda.time.DateTime
@@ -30,8 +31,8 @@ class DbAccountAccessTokenRepository : AccountAccessTokenRepository {
         argAccessToken: ModelsAccessToken,
         argRefreshToken: ModelsAccessToken,
         argDisableToken: Boolean
-    ) {
-        transaction {
+    ): Int {
+        return transaction {
             TableUserAccessToken.update({
                 (TableUserAccessToken.userId eq argAccountId) and
                         (TableUserAccessToken.accessToken eq argAccessToken) and
@@ -43,7 +44,7 @@ class DbAccountAccessTokenRepository : AccountAccessTokenRepository {
         }
     }
 
-    override suspend fun disableToken(argAccountId: AccountId, argAccessToken: ModelsAccessToken) {
+    override suspend fun disableToken(argAccountId: AccountId, argAccessToken: ModelsAccessToken): Int =
         transaction {
             TableUserAccessToken.update({
                 (TableUserAccessToken.userId eq argAccountId) and
@@ -53,5 +54,16 @@ class DbAccountAccessTokenRepository : AccountAccessTokenRepository {
                 it[isActive] = false
             }
         }
+
+    override suspend fun isTokenValid(argAccountId: AccountId, argAccessToken: ModelsAccessToken): Boolean {
+        val count = transaction {
+            TableUserAccessToken.select {
+                (TableUserAccessToken.userId eq argAccountId) and
+                        (TableUserAccessToken.accessToken eq argAccessToken) and
+                        (TableUserAccessToken.isActive eq true)
+            }.count()
+        }
+
+        return 1 <= count
     }
 }

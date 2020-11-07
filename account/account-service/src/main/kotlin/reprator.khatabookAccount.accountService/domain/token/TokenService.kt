@@ -14,11 +14,11 @@ interface TokenService {
 
     fun generateAccessToken(
         userId: AccountId, phoneNumber: PhoneNumber,
-        orgnaizationId: ParentOrganization, expirationPeriod: Milliseconds = tokenExpiration
+        organizationId: ParentOrganization, expirationPeriod: Milliseconds = tokenExpiration
     ): ModelsAccessToken
 
     fun generateRefreshToken(
         userId: AccountId, phoneNumber: PhoneNumber,
-        orgnaizationId: ParentOrganization, expirationPeriod: Milliseconds = refreshTokenExpiration
+        organizationId: ParentOrganization, expirationPeriod: Milliseconds = refreshTokenExpiration
     ): ModelsAccessToken
 }

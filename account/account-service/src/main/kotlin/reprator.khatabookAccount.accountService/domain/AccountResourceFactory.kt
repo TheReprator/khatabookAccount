@@ -28,4 +28,9 @@ interface AccountResourceFactory {
         userId: AccountId,
         argAccessToken: ModelsAccessToken
     )
+
+    suspend fun isTokenValid(
+        userId: AccountId,
+        argAccessToken: ModelsAccessToken
+    ): Boolean
 }

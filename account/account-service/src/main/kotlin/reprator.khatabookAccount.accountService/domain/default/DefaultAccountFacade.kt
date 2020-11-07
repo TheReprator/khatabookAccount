@@ -3,10 +3,7 @@ package reprator.khatabookAccount.accountService.domain.default
 import org.kodein.di.DI
 import org.kodein.di.DIAware
 import org.kodein.di.instance
-import reprator.khatabookAccount.accountApi.AccountId
-import reprator.khatabookAccount.accountApi.ParentOrganization
-import reprator.khatabookAccount.accountApi.PhoneNumber
-import reprator.khatabookAccount.accountApi.VerificationStatus
+import reprator.khatabookAccount.accountApi.*
 import reprator.khatabookAccount.accountService.data.AccountAccessTokenResource
 import reprator.khatabookAccount.accountService.data.AccountResource
 import reprator.khatabookAccount.accountService.domain.AccessTokenEntity
@@ -41,6 +38,10 @@ class DefaultAccountFacade(
 
     override suspend fun logout(userId: AccountId, accessToken: String) {
         factory.logout(userId, accessToken)
+    }
+
+    override suspend fun isTokenValid(userId: AccountId, accessToken: ModelsAccessToken): Boolean {
+        return factory.isTokenValid(userId, accessToken)
     }
 
     private fun AccountResource.toAccountEntity() = AccountEntity.DTO(

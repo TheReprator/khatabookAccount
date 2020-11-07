@@ -77,9 +77,9 @@ class DefaultAccountResourceFactory(
         if (refreshToken.isBlank())
             throw AccountInvalidAuthorization("Invalid Refresh Token ID")
 
-        accountTokenRepository.updateUserToken(
-            authenticatedUser.userId, accessToken, refreshToken
-        )
+        if ( accountTokenRepository.updateUserToken(authenticatedUser.userId, accessToken,
+                refreshToken) <= 0 )
+            throw  AccountInvalidData("Invalid Data")
 
         val newAccessToken = tokenService.generateAccessToken(
             authenticatedUser.userId, authenticatedUser.phoneNumber,
@@ -108,6 +108,12 @@ class DefaultAccountResourceFactory(
     }
 
     override suspend fun logout(userId: AccountId, argAccessToken: ModelsAccessToken) {
-        accountTokenRepository.disableToken(userId, argAccessToken)
+        if(accountTokenRepository.disableToken(userId, argAccessToken) <= 0){
+            throw AccountInvalidData("Invalid Data")
+        }
+    }
+
+    override suspend fun isTokenValid(userId: AccountId, argAccessToken: ModelsAccessToken): Boolean {
+        return accountTokenRepository.isTokenValid(userId, argAccessToken)
     }
 }
