@@ -7,7 +7,7 @@ buildscript {
 
 plugins {
     application
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.4.30"
 
     id("com.github.johnrengelman.shadow") version "5.2.0"
 }
